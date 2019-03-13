@@ -98,7 +98,7 @@ def exp_minimax(turn, chance, rolled, my_points, opp_points, depth):
         max_value = -100000
 
         max_value = max(max_value, exp_minimax(AI, True, rolled, my_points, opp_points, depth - 1))
-        max_value = max(max_value, exp_minimax(PLAYER, False, rolled, my_points, opp_points, depth - 1))
+        max_value = max(max_value, exp_minimax(PLAYER, False, rolled, opp_points, my_points, depth - 1))
         a = max_value
     # case 3: player's turn:
     # return min value (assume optimal action from player)
@@ -107,7 +107,7 @@ def exp_minimax(turn, chance, rolled, my_points, opp_points, depth):
         min_value = 100000
 
         min_value = min(min_value, exp_minimax(PLAYER, True, rolled, my_points, opp_points, depth - 1))
-        min_value = min(min_value, exp_minimax(AI, False, rolled, my_points, opp_points, depth - 1))
+        min_value = min(min_value, exp_minimax(AI, False, rolled, opp_points, my_points, depth - 1))
         a = min_value
     # case 4: chance node:
     # return average of all dice rolls
@@ -116,11 +116,11 @@ def exp_minimax(turn, chance, rolled, my_points, opp_points, depth):
         average = 0
 
         if turn == AI:
-            average = average + (1/6 * exp_minimax(PLAYER, False, 0, my_points, opp_points, depth - 1))
+            average = average + (1/6 * exp_minimax(PLAYER, False, 0, opp_points, my_points, depth - 1))
             for i in range(2, 7):
                 average = average + (1/6 * exp_minimax(AI, False, rolled + i, my_points, opp_points, depth - 1))
         else:
-            average = average + (1/6 * exp_minimax(AI, False, 0, my_points, opp_points, depth - 1))
+            average = average + (1/6 * exp_minimax(AI, False, 0, opp_points, my_points, depth - 1))
             for i in range(2, 7):
                 average = average + (1/6 * exp_minimax(PLAYER, False, rolled + i, my_points, opp_points, depth - 1))
 
